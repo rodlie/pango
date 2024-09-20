@@ -613,6 +613,19 @@ pango_renderer_draw_layout_line (PangoRenderer   *renderer,
       PangoRectangle logical_rect, *logical = NULL;
       int y_off;
 
+      int alpha = 0;
+      GSList *a;
+      for (a = run->item->analysis.extra_attrs; a; a = a->next) {
+        PangoAttribute *attr = a->data;
+        switch ((int) attr->klass->type) {
+          case PANGO_ATTR_FOREGROUND_ALPHA:
+            alpha = ((PangoAttrInt *)attr)->value;
+            break;
+          default:
+            break;
+        }
+      }
+
       if (run->item->analysis.flags & PANGO_ANALYSIS_FLAG_CENTERED_BASELINE)
         logical = &logical_rect;
 
@@ -682,6 +695,7 @@ pango_renderer_draw_layout_line (PangoRenderer   *renderer,
                                          overall_rect.height);
         }
 
+      if (alpha == 0) {
       if (shape_attr)
         {
           draw_shaped_glyphs (renderer, run->glyphs, shape_attr, x + x_off, y - y_off);
@@ -693,6 +707,7 @@ pango_renderer_draw_layout_line (PangoRenderer   *renderer,
                                           run,
                                           x + x_off, y - y_off);
         }
+      }
 
       if (renderer->underline != PANGO_UNDERLINE_NONE ||
           renderer->priv->overline != PANGO_OVERLINE_NONE ||
