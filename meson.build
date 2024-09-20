@@ -421,7 +421,7 @@ if ['pkgconfig', 'internal'].contains(cairo_found_type)
 
   cairo_font_backends = [
     [ 'cairo-ft', cairo_req_version, 'HAVE_CAIRO_FREETYPE', 'freetype', ],
-    [ 'cairo-win32', cairo_req_version, 'HAVE_CAIRO_WIN32', 'win32', ],
+    #[ 'cairo-win32', cairo_req_version, 'HAVE_CAIRO_WIN32', 'win32', ],
     [ 'cairo-quartz', cairo_req_version, 'HAVE_CAIRO_QUARTZ', 'quartz', ],
   ]
 
@@ -463,7 +463,7 @@ if ['pkgconfig', 'internal'].contains(cairo_found_type)
   # - define
   # - backend name
   cairo_surface_backends = [
-    [ 'cairo-png', cairo_req_version, 'HAVE_CAIRO_PNG', 'png', ],
+    #[ 'cairo-png', cairo_req_version, 'HAVE_CAIRO_PNG', 'png', ],
     [ 'cairo-ps', cairo_req_version, 'HAVE_CAIRO_PS', 'ps', ],
     [ 'cairo-pdf', cairo_req_version, 'HAVE_CAIRO_PDF', 'pdf', ],
     [ 'cairo-xlib', cairo_req_version, 'HAVE_CAIRO_XLIB', 'xlib', ],
@@ -561,9 +561,9 @@ if cairo_dep.found()
     pangocairo_requires += 'pangoft2 '
   endif
 
-  if pango_font_backends.contains('win32')
-    pangocairo_requires += 'pangowin32 '
-  endif
+  #if pango_font_backends.contains('win32')
+  #  pangocairo_requires += 'pangowin32 '
+  #endif
 endif
 
 # libsysprof-capture support
@@ -597,9 +597,9 @@ root_inc = include_directories('.')
 pango_inc = include_directories('pango')
 
 subdir('pango')
-subdir('utils')
-subdir('examples')
-subdir('tests')
+#subdir('utils')
+#subdir('examples')
+#subdir('tests')
 subdir('tools')
 
 if get_option('gtk_doc')
