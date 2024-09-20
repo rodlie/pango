@@ -340,10 +340,8 @@ add_attribute (GtkJsonPrinter *printer,
       gtk_json_printer_add_string (printer, "value", baseline_shift_names[((PangoAttrInt*)attr)->value]);
       break;
 
-
     case PANGO_ATTR_SIZE:
     case PANGO_ATTR_RISE:
-    case PANGO_ATTR_LETTER_SPACING:
     case PANGO_ATTR_ABSOLUTE_SIZE:
     case PANGO_ATTR_FOREGROUND_ALPHA:
     case PANGO_ATTR_BACKGROUND_ALPHA:
@@ -381,6 +379,7 @@ add_attribute (GtkJsonPrinter *printer,
       gtk_json_printer_add_string (printer, "value", "shape");
       break;
 
+    case PANGO_ATTR_LETTER_SPACING:
     case PANGO_ATTR_SCALE:
     case PANGO_ATTR_LINE_HEIGHT:
       gtk_json_printer_add_number (printer, "value", ((PangoAttrFloat*)attr)->value);
@@ -990,7 +989,7 @@ attr_for_type (GtkJsonParser *parser,
       break;
 
     case PANGO_ATTR_LETTER_SPACING:
-      attr = pango_attr_letter_spacing_new ((int) gtk_json_parser_get_number (parser));
+      attr = pango_attr_letter_spacing_new (gtk_json_parser_get_number (parser));
       break;
 
     case PANGO_ATTR_UNDERLINE_COLOR:

@@ -740,19 +740,19 @@ void
 pango_glyph_item_letter_space (PangoGlyphItem *glyph_item,
 			       const char     *text,
 			       PangoLogAttr   *log_attrs,
-			       int             letter_spacing)
+			       float           letter_spacing)
 {
   PangoGlyphItemIter iter;
   PangoGlyphInfo *glyphs = glyph_item->glyphs->glyphs;
   gboolean have_cluster;
-  int space_left, space_right;
+  float space_left, space_right;
 
   space_left = letter_spacing / 2;
 
   /* hinting */
-  if ((letter_spacing & (PANGO_SCALE - 1)) == 0)
+  if (((int)letter_spacing & (PANGO_SCALE - 1)) == 0)
     {
-      space_left = PANGO_UNITS_ROUND (space_left);
+      space_left = pango_units_from_double (space_left);
     }
 
   space_right = letter_spacing - space_left;

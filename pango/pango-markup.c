@@ -1713,9 +1713,9 @@ span_parse_func     (MarkupData            *md G_GNUC_UNUSED,
 
   if (G_UNLIKELY (letter_spacing))
     {
-      gint n = 0;
+      double n = 0;
 
-      if (!span_parse_int ("letter_spacing", letter_spacing, &n, line_number, error))
+      if (!span_parse_float ("letter_spacing", letter_spacing, &n, line_number, error))
 	goto error;
 
       add_attribute (tag, pango_attr_letter_spacing_new (n));

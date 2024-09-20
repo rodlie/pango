@@ -112,7 +112,7 @@ struct _ItemProperties
   guint strikethrough  : 1;
   guint oline_single   : 1;
   guint showing_space  : 1;
-  gint            letter_spacing;
+  gfloat          letter_spacing;
   gboolean        shape_set;
   PangoRectangle *shape_ink_rect;
   PangoRectangle *shape_logical_rect;
@@ -612,7 +612,7 @@ pango_layout_get_indent (PangoLayout *layout)
  */
 void
 pango_layout_set_spacing (PangoLayout *layout,
-                          int          spacing)
+                          float        spacing)
 {
   g_return_if_fail (layout != NULL);
 
@@ -631,7 +631,7 @@ pango_layout_set_spacing (PangoLayout *layout,
  *
  * Return value: the spacing in Pango units
  */
-int
+float
 pango_layout_get_spacing (PangoLayout *layout)
 {
   g_return_val_if_fail (layout != NULL, 0);
@@ -3570,15 +3570,15 @@ can_break_in (PangoLayout *layout,
 }
 
 static inline void
-distribute_letter_spacing (int  letter_spacing,
-                           int *space_left,
-                           int *space_right)
+distribute_letter_spacing (float  letter_spacing,
+                           float *space_left,
+                           float *space_right)
 {
   *space_left = letter_spacing / 2;
   /* hinting */
-  if ((letter_spacing & (PANGO_SCALE - 1)) == 0)
+  if (((int)letter_spacing & (PANGO_SCALE - 1)) == 0)
     {
-      *space_left = PANGO_UNITS_ROUND (*space_left);
+      *space_left = pango_units_from_double (*space_left);
     }
   *space_right = letter_spacing - *space_left;
 }
@@ -3721,7 +3721,7 @@ shape_run (PangoLayoutLine *line,
       if (state->properties.letter_spacing)
         {
           PangoGlyphItem glyph_item;
-          int space_left, space_right;
+          float space_left, space_right;
 
           glyph_item.item = item;
           glyph_item.glyphs = glyphs;
@@ -6083,7 +6083,7 @@ pango_layout_line_reorder (PangoLayoutLine *line)
       line->runs = g_slist_reverse (logical_runs);
 }
 
-static int
+static float
 get_item_letter_spacing (PangoItem *item)
 {
   ItemProperties properties;
@@ -6316,8 +6316,8 @@ adjust_line_letter_spacing (PangoLayoutLine *line,
         {
           PangoLayoutRun *visual_next_run = reversed ? last_run : next_run;
           PangoLayoutRun *visual_last_run = reversed ? next_run : last_run;
-          int run_spacing = get_item_letter_spacing (run->item);
-          int space_left, space_right;
+          float run_spacing = get_item_letter_spacing (run->item);
+          float space_left, space_right;
 
           distribute_letter_spacing (run_spacing, &space_left, &space_right);
 
@@ -6430,13 +6430,13 @@ justify_clusters (PangoLayoutLine *line,
               if (mode == ADJUST)
                 {
                   int leftmost, rightmost;
-                  int adjustment, space_left, space_right;
+                  float adjustment, space_left, space_right;
 
                   adjustment = total_remaining_width / total_gaps + residual;
                   if (is_hinted)
                   {
                     int old_adjustment = adjustment;
-                    adjustment = PANGO_UNITS_ROUND (adjustment);
+                    adjustment = pango_units_from_double (adjustment);
                     residual = old_adjustment - adjustment;
                   }
                   /* distribute to before/after */
@@ -6936,7 +6936,7 @@ pango_layout_get_item_properties (PangoItem      *item,
           break;
 
         case PANGO_ATTR_LETTER_SPACING:
-          properties->letter_spacing = ((PangoAttrInt *)attr)->value;
+          properties->letter_spacing = ((PangoAttrFloat *)attr)->value;
           break;
 
         case PANGO_ATTR_SHAPE:
