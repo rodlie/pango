@@ -948,6 +948,29 @@ span_parse_int (const char *attr_name,
 }
 
 static gboolean
+span_parse_float (const char  *attr_name,
+                  const char  *attr_val,
+                  double      *val,
+                  int          line_number,
+                  GError     **error)
+{
+  *val = g_ascii_strtod (attr_val, NULL);
+  if (errno != 0)
+    {
+      g_set_error (error,
+                   G_MARKUP_ERROR,
+                   G_MARKUP_ERROR_INVALID_CONTENT,
+                   _("Value of '%s' attribute on <span> tag "
+                     "on line %d could not be parsed; "
+                     "should be a number, not '%s'"),
+                   attr_name, line_number, attr_val);
+      return FALSE;
+    }
+
+  return TRUE;
+}
+
+static gboolean
 span_parse_boolean (const char *attr_name,
 		    const char *attr_val,
 		    gboolean *val,
@@ -1577,9 +1600,9 @@ span_parse_func     (MarkupData            *md G_GNUC_UNUSED,
 
   if (G_UNLIKELY (letter_spacing))
     {
-      gint n = 0;
+      double n = 0;
 
-      if (!span_parse_int ("letter_spacing", letter_spacing, &n, line_number, error))
+      if (!span_parse_float ("letter_spacing", letter_spacing, &n, line_number, error))
 	goto error;
 
       add_attribute (tag, pango_attr_letter_spacing_new (n));

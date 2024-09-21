@@ -70,7 +70,7 @@ PANGO_AVAILABLE_IN_1_6
 void            pango_glyph_item_letter_space (PangoGlyphItem *glyph_item,
 					       const char     *text,
 					       PangoLogAttr   *log_attrs,
-					       int             letter_spacing);
+					       float           letter_spacing);
 PANGO_AVAILABLE_IN_1_26
 void 	  pango_glyph_item_get_logical_widths (PangoGlyphItem *glyph_item,
 					       const char     *text,

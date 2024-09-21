@@ -932,16 +932,16 @@ pango_attr_fallback_new (gboolean enable_fallback)
  * Since: 1.6
  */
 PangoAttribute *
-pango_attr_letter_spacing_new (int letter_spacing)
+pango_attr_letter_spacing_new (double letter_spacing)
 {
   static const PangoAttrClass klass = {
     PANGO_ATTR_LETTER_SPACING,
-    pango_attr_int_copy,
-    pango_attr_int_destroy,
-    pango_attr_int_equal
+    pango_attr_float_copy,
+    pango_attr_float_destroy,
+    pango_attr_float_equal
   };
 
-  return pango_attr_int_new (&klass, letter_spacing);
+  return pango_attr_float_new (&klass, letter_spacing);
 }
 
 static PangoAttribute *

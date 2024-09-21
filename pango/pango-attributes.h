@@ -146,7 +146,7 @@ typedef struct _PangoAttrIterator PangoAttrIterator;
  * @PANGO_ATTR_SHAPE: shape ([struct@Pango.AttrShape])
  * @PANGO_ATTR_SCALE: font size scale factor ([struct@Pango.AttrFloat])
  * @PANGO_ATTR_FALLBACK: whether fallback is enabled ([struct@Pango.AttrInt])
- * @PANGO_ATTR_LETTER_SPACING: letter spacing ([struct@PangoAttrInt])
+ * @PANGO_ATTR_LETTER_SPACING: letter spacing ([struct@PangoAttrFloat])
  * @PANGO_ATTR_UNDERLINE_COLOR: underline color ([struct@Pango.AttrColor])
  * @PANGO_ATTR_STRIKETHROUGH_COLOR: strikethrough color ([struct@Pango.AttrColor])
  * @PANGO_ATTR_ABSOLUTE_SIZE: font size in pixels scaled by %PANGO_SCALE ([struct@Pango.AttrInt])
@@ -187,7 +187,7 @@ typedef enum
   PANGO_ATTR_SHAPE,		/* PangoAttrShape */
   PANGO_ATTR_SCALE,             /* PangoAttrFloat */
   PANGO_ATTR_FALLBACK,          /* PangoAttrInt */
-  PANGO_ATTR_LETTER_SPACING,    /* PangoAttrInt */
+  PANGO_ATTR_LETTER_SPACING,    /* PangoAttrFloat */
   PANGO_ATTR_UNDERLINE_COLOR,	/* PangoAttrColor */
   PANGO_ATTR_STRIKETHROUGH_COLOR,/* PangoAttrColor */
   PANGO_ATTR_ABSOLUTE_SIZE,	/* PangoAttrSize */
@@ -556,7 +556,7 @@ PangoAttribute *pango_attr_scale_new         (double                      scale_
 PANGO_AVAILABLE_IN_1_4
 PangoAttribute *pango_attr_fallback_new      (gboolean                    enable_fallback);
 PANGO_AVAILABLE_IN_1_6
-PangoAttribute *pango_attr_letter_spacing_new (int                        letter_spacing);
+PangoAttribute *pango_attr_letter_spacing_new (double                     letter_spacing);
 
 PANGO_AVAILABLE_IN_ALL
 PangoAttribute *pango_attr_shape_new           (const PangoRectangle       *ink_rect,
